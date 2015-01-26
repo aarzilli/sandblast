@@ -3,6 +3,7 @@ package sandblast
 import (
 	"net/http"
 	"io/ioutil"
+	"io"
 	"code.google.com/p/go.net/html/charset"
 	"code.google.com/p/go.text/transform"
 )
@@ -11,7 +12,7 @@ import (
 func DecodedBody(resp *http.Response) (content []byte, encoding string, err error) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
+	if err != nil && err != io.EOF {
 		content = body
 		return
 	}
