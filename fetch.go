@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"io/ioutil"
 	"io"
-	"code.google.com/p/go.net/html/charset"
-	"code.google.com/p/go.text/transform"
+	"golang.org/x/net/html/charset"
+	"golang.org/x/text/transform"
 )
 
 // Returns the body of resp as a decoded string, detecting its encoding

@@ -2,7 +2,7 @@ Library that uses Readability-like heuristics to extract text from an HTML docum
 
 Example:
 ```go
-import "code.google.com/p/go.net/html"
+import "golang.org/x/net/html"
 …
 node, err := html.Parse(bytes.NewReader(raw_html))
 if err != nil {

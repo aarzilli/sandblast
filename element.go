@@ -3,7 +3,7 @@ package sandblast
 import (
 	"bytes"
 	"fmt"
-	"code.google.com/p/go.net/html"
+	"golang.org/x/net/html"
 	henc "html"
 	"strings"
 )

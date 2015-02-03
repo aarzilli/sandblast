@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"bytes"
 	"github.com/aarzilli/sandblast"
-	"code.google.com/p/go.net/html"
+	"golang.org/x/net/html"
 	"log"
 )
 

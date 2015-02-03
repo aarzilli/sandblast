@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"strings"
-	"code.google.com/p/go.net/html"
+	"golang.org/x/net/html"
 )
 
 func extractEx(node *html.Node, destructive bool) (title, text string, simplified, flattened, cleaned *element, err error) {
