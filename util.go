@@ -39,7 +39,7 @@ func cleanAsciiArt(in []rune) []rune {
 	var baseSpace, baseNormal, maybeAsciiArt cleanAsciiArtStateFn
 	
 	isAsciiArt := func(r rune) bool {
-		return !unicode.In(r, unicode.Ll, unicode.Lt, unicode.Lm, unicode.Lo, unicode.Nd, unicode.Nl, unicode.No)
+		return !unicode.In(r, unicode.Ll, unicode.Lu, unicode.Lt, unicode.Lm, unicode.Lo, unicode.Nd, unicode.Nl, unicode.No)
 	}
 	
 	baseSpace = func(s int) cleanAsciiArtStateFn {
