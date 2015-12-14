@@ -34,4 +34,3 @@ func TestCleanAsciiArt(t *testing.T) {
 	tf("test ===== test === test", "test  test === test")
 	tf("saw this exact same trick performed in a public bar OVER FORTY YEARS AGO. pretty good then; old hat now.", "saw this exact same trick performed in a public bar OVER FORTY YEARS AGO. pretty good then; old hat now.")
 }
-

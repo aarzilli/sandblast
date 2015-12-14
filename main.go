@@ -3,8 +3,8 @@ package sandblast
 import (
 	"bytes"
 	"fmt"
-	"strings"
 	"golang.org/x/net/html"
+	"strings"
 )
 
 func extractEx(node *html.Node, destructive bool) (title, text string, simplified, flattened, cleaned *element, err error) {
@@ -13,7 +13,7 @@ func extractEx(node *html.Node, destructive bool) (title, text string, simplifie
 		err = fmt.Errorf("Could not find root")
 		return
 	}
-	
+
 	title = getTitle(root)
 	simplified, flattened, cleaned = extractTextEx(root, destructive)
 	if cleaned == nil {
@@ -57,7 +57,7 @@ func getTitle(root *html.Node) string {
 		return ""
 	}
 	return strings.TrimSpace(findContent(title.FirstChild))
-	
+
 }
 
 func findChild(root *html.Node, name string) *html.Node {

@@ -35,13 +35,13 @@ func cleanAsciiArt(in []rune) []rune {
 	b := make([]rune, 0, len(in))
 	start := 0
 	count := 0
-	
+
 	var baseSpace, baseNormal, maybeAsciiArt cleanAsciiArtStateFn
-	
+
 	isAsciiArt := func(r rune) bool {
 		return !unicode.In(r, unicode.Ll, unicode.Lu, unicode.Lt, unicode.Lm, unicode.Lo, unicode.Nd, unicode.Nl, unicode.No)
 	}
-	
+
 	baseSpace = func(s int) cleanAsciiArtStateFn {
 		//println("baseSpace <", string(in[s]), ">", isAsciiArt(in[s]))
 		if unicode.IsSpace(in[s]) {
@@ -56,7 +56,7 @@ func cleanAsciiArt(in []rune) []rune {
 			return baseNormal
 		}
 	}
-	
+
 	baseNormal = func(s int) cleanAsciiArtStateFn {
 		//println("baseNormal <", string(in[s]), ">",)
 		b = append(b, in[s])
@@ -66,7 +66,7 @@ func cleanAsciiArt(in []rune) []rune {
 			return baseNormal
 		}
 	}
-	
+
 	maybeAsciiArt = func(s int) cleanAsciiArtStateFn {
 		//println("maybeAsciiArt <", string(in[s]), ">")
 		if isAsciiArt(in[s]) && !unicode.IsSpace(in[s]) {
@@ -86,19 +86,19 @@ func cleanAsciiArt(in []rune) []rune {
 			return baseNormal
 		}
 	}
-	
+
 	state := baseSpace
-	
+
 	for s := range in {
 		state = state(s)
 	}
-	
+
 	return b
 }
 
 func cleanControl(in []rune) []rune {
 	var b []rune = nil
-	
+
 	for s := range in {
 		if unicode.IsControl(in[s]) && !unicode.IsSpace(in[s]) {
 			if b == nil {
@@ -112,7 +112,7 @@ func cleanControl(in []rune) []rune {
 		}
 		s++
 	}
-	
+
 	if b == nil {
 		return in
 	}

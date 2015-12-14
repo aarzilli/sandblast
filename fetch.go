@@ -1,11 +1,11 @@
 package sandblast
 
 import (
-	"net/http"
-	"io/ioutil"
-	"io"
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/transform"
+	"io"
+	"io/ioutil"
+	"net/http"
 )
 
 // Returns the body of resp as a decoded string, detecting its encoding
