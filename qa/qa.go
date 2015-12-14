@@ -123,9 +123,11 @@ func qarun(datapath string) {
 			count++
 		}
 		if count > 10 {
+			fmt.Printf("Too many differences\n")
 			return
 		}
 	}
+	fmt.Printf("All ok\n")
 }
 
 func qaone(datapath string, name string) {
