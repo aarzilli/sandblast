@@ -16,7 +16,11 @@ func extractEx(node *html.Node, destructive bool) (title, text string, simplifie
 	
 	title = getTitle(root)
 	simplified, flattened, cleaned = extractTextEx(root, destructive)
-	text = cleaned.String()
+	if cleaned == nil {
+		text = ""
+	} else {
+		text = cleaned.String()
+	}
 	return
 }
 

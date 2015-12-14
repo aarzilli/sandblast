@@ -10,6 +10,9 @@ const _MAX_PROCESSING_DEPTH = 100
 
 func extractTextEx(root *html.Node, destructive bool) (simplified, flattened, cleaned *element) {
 	simplified = simplify(root, 0)
+	if simplified == nil {
+		return nil, nil, nil
+	}
 	if destructive {
 		flattened = flatten(simplified)
 	} else {
