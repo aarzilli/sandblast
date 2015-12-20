@@ -38,7 +38,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Parsing error: ", err)
 	}
-	title, text, simplified, flattened, cleaned, err := sandblast.ExtractEx(node)
+	title, text, simplified, flattened, cleaned, err := sandblast.ExtractEx(node, sandblast.KeepLinks)
 	if err != nil {
 		log.Fatal("Extraction error: ", err)
 	}

@@ -1,6 +1,8 @@
 package sandblast
 
 import (
+	"golang.org/x/net/html"
+	"strings"
 	"unicode"
 )
 
@@ -117,4 +119,13 @@ func cleanControl(in []rune) []rune {
 		return in
 	}
 	return b
+}
+
+func getAttribute(node *html.Node, name string) string {
+	for i := range node.Attr {
+		if strings.ToLower(node.Attr[i].Key) == "href" {
+			return node.Attr[i].Val
+		}
+	}
+	return ""
 }

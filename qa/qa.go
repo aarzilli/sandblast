@@ -157,7 +157,7 @@ func extractTest(test test, writeextract bool) ([]byte, string) {
 	node, err := html.Parse(r)
 	must(err)
 
-	_, output, simplified, flattened, cleaned, err := sandblast.ExtractEx(node)
+	_, output, simplified, flattened, cleaned, err := sandblast.ExtractEx(node, 0)
 	must(err)
 
 	if writeextract {
@@ -180,8 +180,11 @@ func qaruntest(test test, writein bool) bool {
 	must(err)
 	target := strings.TrimSpace(string(tgtbody))
 
-	if string(collapseWhitespace([]rune(target))) != string(collapseWhitespace([]rune(output))) {
+	a := strings.TrimSpace(string(collapseWhitespace([]rune(target))))
+	b := strings.TrimSpace(string(collapseWhitespace([]rune(output))))
+	if a != b {
 		fmt.Printf("%s output and target differ\n", test.name)
+		//fmt.Printf("target: <%s>\noutput: <%s>\n", a, b)
 		tgtout, err := os.Create(fmt.Sprintf("work/%s.target", test.name))
 		must(err)
 		io.WriteString(tgtout, target)

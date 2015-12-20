@@ -8,19 +8,29 @@ import (
 
 const _MAX_PROCESSING_DEPTH = 100
 
-func extractTextEx(root *html.Node, destructive bool) (simplified, flattened, cleaned *element) {
+type Flags int
+
+const (
+	KeepMenus     = Flags(1 << iota) // Not implemented
+	KeepLinks                        // Keeps link destinations for links embedded inside text blocks
+	KeepImages                       // Not implemented
+	MarkTitles                       // Not implemented
+	isDestructive                    // Intermediate values will be discarded (internal)
+)
+
+func extractTextEx(root *html.Node, flags Flags) (simplified, flattened, cleaned *element) {
 	simplified = simplify(root, 0)
 	if simplified == nil {
 		return nil, nil, nil
 	}
-	if destructive {
+	if flags&isDestructive != 0 {
 		flattened = flatten(simplified)
 	} else {
 		x := simplified.Clone()
 		//println("Flatten argument:", x.DebugString())
 		flattened = flatten(x)
 	}
-	if destructive {
+	if flags&isDestructive != 0 {
 		cleaned = clean(flattened)
 	} else {
 		cleaned = clean(flattened.Clone())
@@ -100,7 +110,9 @@ func simplify(node *html.Node, depth int) *element {
 
 		if len(childs) == 1 {
 			if (childs[0].tag == "~text" || childs[0].tag == "~textdiv") && strings.ToLower(node.Data) == "a" {
+				childs[0].hrefs = []string{getAttribute(node, "href")}
 				childs[0].linkPart = 1.0
+				childs[0].content = _LINK_START + childs[0].content + _LINK_END
 			}
 			return childs[0]
 		}
@@ -118,12 +130,16 @@ func simplify(node *html.Node, depth int) *element {
 				}
 
 				trText.Write([]byte(child.content))
+				trText.Write([]byte{' '})
 				linkPart += float32(len(child.content)) * child.linkPart
 			}
 
 			if !hasComplexTds {
 				r := newContentElement("~textdiv", string(trText.Bytes()))
 				r.linkPart = linkPart / float32(len(r.content))
+				for _, child := range childs {
+					r.hrefs = append(r.hrefs, child.hrefs...)
+				}
 				return r
 			}
 		}

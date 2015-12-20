@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func extractEx(node *html.Node, destructive bool) (title, text string, simplified, flattened, cleaned *element, err error) {
+func extractEx(node *html.Node, flags Flags) (title, text string, simplified, flattened, cleaned *element, err error) {
 	root := findRoot(node)
 	if root == nil {
 		err = fmt.Errorf("Could not find root")
@@ -15,22 +15,22 @@ func extractEx(node *html.Node, destructive bool) (title, text string, simplifie
 	}
 
 	title = getTitle(root)
-	simplified, flattened, cleaned = extractTextEx(root, destructive)
+	simplified, flattened, cleaned = extractTextEx(root, flags)
 	if cleaned == nil {
 		text = ""
 	} else {
-		text = cleaned.String()
+		text = cleaned.String(flags)
 	}
 	return
 }
 
-func ExtractEx(node *html.Node) (title, text string, simplified, flattened, cleaned *element, err error) {
-	title, text, simplified, flattened, cleaned, err = extractEx(node, false)
+func ExtractEx(node *html.Node, flags Flags) (title, text string, simplified, flattened, cleaned *element, err error) {
+	title, text, simplified, flattened, cleaned, err = extractEx(node, flags)
 	return
 }
 
-func Extract(node *html.Node) (title, text string, err error) {
-	title, text, _, _, _, err = extractEx(node, true)
+func Extract(node *html.Node, flags Flags) (title, text string, err error) {
+	title, text, _, _, _, err = extractEx(node, flags|isDestructive)
 	return
 }
 
